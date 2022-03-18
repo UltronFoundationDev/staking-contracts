@@ -1,5 +1,3 @@
-# spookyswap-xboo
-
 Refreshed to use hardhat.
 
 # Usage instructions
@@ -32,12 +30,4 @@ Refreshed to use hardhat.
 ### Specific test
 `npx hardhat test test/specificTest.js`
 
-## Execute script
 
-`npx hardhat run scripts/deploy.js`
-
-## Select network
-
-`npx hardhat test test/specificTest.js --network hardhat`
-
-`npx hardhat run scripts/deploy.js --network opera`
