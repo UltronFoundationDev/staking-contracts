@@ -6,68 +6,68 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import '@openzeppelin/contracts/utils/math/SafeMath.sol';
 
-// BooMirrorWorld is the place where boo's live to create xBOO. Grim becomes her evil half, ace
-// This contract handles swapping to and from xBoo, SpookySwap's staking token.
-contract BooMirrorWorld is ERC20("Boo MirrorWorld", "xBOO") {
+// wULXMirrorWorld is the place where wULX's live to create xULX. Grim becomes her evil half, ace
+// This contract handles swapping to and from xULX, SpookySwap's staking token.
+contract ULXMirrorWorld is ERC20("ULX MirrorWorld", "xULX") {
     using SafeMath for uint256;
-    IERC20 public boo;
+    IERC20 public wULX;
 
-    // Define the Boo token contract
-    constructor(IERC20 _boo) {
-        boo = _boo;
+    // Define the wULX token contract
+    constructor(IERC20 _wULX) {
+        wULX = _wULX;
     }
 
-    // Locks Boo and mints xBoo
+    // Locks wULX and mints xULX
     function enter(uint256 _amount) public {
-        // Gets the amount of Boo locked in the contract
-        uint256 totalBoo = boo.balanceOf(address(this));
-        // Gets the amount of xBoo in existence
+        // Gets the amount of wULX locked in the contract
+        uint256 totalwULX = wULX.balanceOf(address(this));
+        // Gets the amount of xULX in existence
         uint256 totalShares = totalSupply();
-        // If no xBoo exists, mint it 1:1 to the amount put in
-        if (totalShares == 0 || totalBoo == 0) {
+        // If no xULX exists, mint it 1:1 to the amount put in
+        if (totalShares == 0 || totalwULX == 0) {
             mint(msg.sender, _amount);
         } 
-        // Calculate and mint the amount of xBoo the Boo is worth. The ratio will change overtime, as xBoo is burned/minted and Boo deposited + gained from fees / withdrawn.
+        // Calculate and mint the amount of xULX the wULX is worth. The ratio will change overtime, as xULX is burned/minted and wULX deposited + gained from fees / withdrawn.
         else {
-            uint256 what = _amount.mul(totalShares).div(totalBoo);
+            uint256 what = _amount.mul(totalShares).div(totalwULX);
             mint(msg.sender, what);
         }
-        // Lock the Boo in the contract
-        boo.transferFrom(msg.sender, address(this), _amount);
+        // Lock the wULX in the contract
+        wULX.transferFrom(msg.sender, address(this), _amount);
     }
 
-    // Unlocks the staked + gained Boo and burns xBoo
+    // Unlocks the staked + gained wULX and burns xULX
     function leave(uint256 _share) public {
-        // Gets the amount of xBoo in existence
+        // Gets the amount of xULX in existence
         uint256 totalShares = totalSupply();
-        // Calculates the amount of Boo the xBoo is worth
-        uint256 what = _share.mul(boo.balanceOf(address(this))).div(totalShares);
+        // Calculates the amount of wULX the xULX is worth
+        uint256 what = _share.mul(wULX.balanceOf(address(this))).div(totalShares);
         burn(msg.sender, _share);
-        boo.transfer(msg.sender, what);
+        wULX.transfer(msg.sender, what);
     }
 
-    // returns the total amount of BOO an address has in the contract including fees earned
-    function BOOBalance(address _account) external view returns (uint256 booAmount_) {
-        uint256 xBOOAmount = balanceOf(_account);
-        uint256 totalxBOO = totalSupply();
-        booAmount_ = xBOOAmount.mul(boo.balanceOf(address(this))).div(totalxBOO);
+    // returns the total amount of wULX an address has in the contract including fees earned
+    function wULXBalance(address _account) external view returns (uint256 wULXAmount_) {
+        uint256 xULXAmount = balanceOf(_account);
+        uint256 totalxULX = totalSupply();
+        wULXAmount_ = xULXAmount.mul(wULX.balanceOf(address(this))).div(totalxULX);
     }
 
-    // returns how much BOO someone gets for redeeming xBOO
-    function xBOOForBOO(uint256 _xBOOAmount) external view returns (uint256 booAmount_) {
-        uint256 totalxBOO = totalSupply();
-        booAmount_ = _xBOOAmount.mul(boo.balanceOf(address(this))).div(totalxBOO);
+    // returns how much wULX someone gets for redeeming xULX
+    function xULXForwULX(uint256 _xULXAmount) external view returns (uint256 wULXAmount_) {
+        uint256 totalxULX = totalSupply();
+        wULXAmount_ = _xULXAmount.mul(wULX.balanceOf(address(this))).div(totalxULX);
     }
 
-    // returns how much xBOO someone gets for depositing BOO
-    function BOOForxBOO(uint256 _booAmount) external view returns (uint256 xBOOAmount_) {
-        uint256 totalBoo = boo.balanceOf(address(this));
-        uint256 totalxBOO = totalSupply();
-        if (totalxBOO == 0 || totalBoo == 0) {
-            xBOOAmount_ = _booAmount;
+    // returns how much xULX someone gets for depositing wULX
+    function wULXForxULX(uint256 _wULXAmount) external view returns (uint256 xULXAmount_) {
+        uint256 totalwULX = wULX.balanceOf(address(this));
+        uint256 totalxULX = totalSupply();
+        if (totalxULX == 0 || totalwULX == 0) {
+            xULXAmount_ = _wULXAmount;
         }
         else {
-            xBOOAmount_ = _booAmount.mul(totalxBOO).div(totalBoo);
+            xULXAmount_ = _wULXAmount.mul(totalxULX).div(totalwULX);
         }
     }
 
@@ -207,9 +207,9 @@ contract BooMirrorWorld is ERC20("Boo MirrorWorld", "xBOO") {
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "BOO::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "BOO::delegateBySig: invalid nonce");
-        require(block.timestamp <= expiry, "BOO::delegateBySig: signature expired");
+        require(signatory != address(0), "wULX::delegateBySig: invalid signature");
+        require(nonce == nonces[signatory]++, "wULX::delegateBySig: invalid nonce");
+        require(block.timestamp <= expiry, "wULX::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -239,7 +239,7 @@ contract BooMirrorWorld is ERC20("Boo MirrorWorld", "xBOO") {
         view
         returns (uint256)
     {
-        require(blockNumber < block.number, "BOO::getPriorVotes: not yet determined");
+        require(blockNumber < block.number, "wULX::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -276,7 +276,7 @@ contract BooMirrorWorld is ERC20("Boo MirrorWorld", "xBOO") {
         internal
     {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying BOOs (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying wULXs (not scaled);
         _delegates[delegator] = delegatee;
 
         emit DelegateChanged(delegator, currentDelegate, delegatee);
@@ -312,7 +312,7 @@ contract BooMirrorWorld is ERC20("Boo MirrorWorld", "xBOO") {
     )
         internal
     {
-        uint32 blockNumber = safe32(block.number, "BOO::_writeCheckpoint: block number exceeds 32 bits");
+        uint32 blockNumber = safe32(block.number, "wULX::_writeCheckpoint: block number exceeds 32 bits");
 
         if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;

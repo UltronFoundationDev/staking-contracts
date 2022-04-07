@@ -9,8 +9,8 @@ interface IERC20Ext is IERC20 {
     function decimals() external returns (uint);
 }
 
-// The goal of this farm is to allow a stake xBoo earn anything model
-// In a flip of a traditional farm, this contract only accepts xBOO as the staking token
+// The goal of this farm is to allow a stake xULX earn anything model
+// In a flip of a traditional farm, this contract only accepts xULX as the staking token
 // Each new pool added is a new reward token, each with its own start times
 // end times, and rewards per second.
 contract AceLab is Ownable {
@@ -27,7 +27,7 @@ contract AceLab is Ownable {
         IERC20 RewardToken;       // Address of reward token contract.
         uint256 RewardPerSecond;   // reward token per second for this pool
         uint256 TokenPrecision; // The precision factor used for calculations, dependent on a tokens decimals
-        uint256 xBooStakedAmount; // # of xboo allocated to this pool
+        uint256 xULXStakedAmount; // # of xULX allocated to this pool
         uint256 lastRewardTime;  // Last block time that reward distribution occurs.
         uint256 accRewardPerShare; // Accumulated reward per share, times the pools token precision. See below.
         uint256 endTime; // end time of pool
@@ -36,7 +36,7 @@ contract AceLab is Ownable {
         address protocolOwnerAddress; // this address is the owner of the protocol corresponding to the reward token, used for emergency withdraw to them only
     }
 
-    IERC20 public immutable xboo;
+    IERC20 public immutable xULX;
     uint public baseUserLimitTime = 2 days;
     uint public baseUserLimit = 0;
 
@@ -51,8 +51,8 @@ contract AceLab is Ownable {
     event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
     event SetRewardPerSecond(uint _pid, uint256 _gemsPerSecond);
 
-    constructor(IERC20 _xboo) {
-        xboo = _xboo;
+    constructor(IERC20 _xULX) {
+        xULX = _xULX;
     }
 
 
@@ -72,16 +72,16 @@ contract AceLab is Ownable {
         return _to - _from;
     }
 
-    // View function to see pending BOOs on frontend.
+    // View function to see pending wULXs on frontend.
     function pendingReward(uint256 _pid, address _user) external view returns (uint256) {
         PoolInfo memory pool = poolInfo[_pid];
         UserInfo memory user = userInfo[_pid][_user];
         uint256 accRewardPerShare = pool.accRewardPerShare;
         
-        if (block.timestamp > pool.lastRewardTime && pool.xBooStakedAmount != 0) {
+        if (block.timestamp > pool.lastRewardTime && pool.xULXStakedAmount != 0) {
             uint256 multiplier = getMultiplier(pool.lastRewardTime, block.timestamp, pool);
             uint256 reward = multiplier * pool.RewardPerSecond;
-            accRewardPerShare += (reward * pool.TokenPrecision) / pool.xBooStakedAmount;
+            accRewardPerShare += (reward * pool.TokenPrecision) / pool.xULXStakedAmount;
         }
         return (user.amount * accRewardPerShare / pool.TokenPrecision) - user.rewardDebt;
     }
@@ -101,14 +101,14 @@ contract AceLab is Ownable {
             return;
         }
 
-        if (pool.xBooStakedAmount == 0) {
+        if (pool.xULXStakedAmount == 0) {
             pool.lastRewardTime = block.timestamp;
             return;
         }
         uint256 multiplier = getMultiplier(pool.lastRewardTime, block.timestamp, pool);
         uint256 reward = multiplier * pool.RewardPerSecond;
 
-        pool.accRewardPerShare += reward * pool.TokenPrecision / pool.xBooStakedAmount;
+        pool.accRewardPerShare += reward * pool.TokenPrecision / pool.xULXStakedAmount;
         pool.lastRewardTime = block.timestamp;
     }
 
@@ -127,13 +127,13 @@ contract AceLab is Ownable {
         uint256 pending = (user.amount * pool.accRewardPerShare / pool.TokenPrecision) - user.rewardDebt;
 
         user.amount += _amount;
-        pool.xBooStakedAmount += _amount;
+        pool.xULXStakedAmount += _amount;
         user.rewardDebt = user.amount * pool.accRewardPerShare / pool.TokenPrecision;
 
         if(pending > 0) {
             safeTransfer(pool.RewardToken, msg.sender, pending);
         }
-        xboo.safeTransferFrom(address(msg.sender), address(this), _amount);
+        xULX.safeTransferFrom(address(msg.sender), address(this), _amount);
 
         emit Deposit(msg.sender, _pid, _amount);
     }
@@ -150,14 +150,14 @@ contract AceLab is Ownable {
         uint256 pending = (user.amount * pool.accRewardPerShare / pool.TokenPrecision) - user.rewardDebt;
 
         user.amount -= _amount;
-        pool.xBooStakedAmount -= _amount;
+        pool.xULXStakedAmount -= _amount;
         user.rewardDebt = user.amount * pool.accRewardPerShare / pool.TokenPrecision;
 
         if(pending > 0) {
             safeTransfer(pool.RewardToken, msg.sender, pending);
         }
 
-        safeTransfer(xboo, address(msg.sender), _amount);
+        safeTransfer(xULX, address(msg.sender), _amount);
         
         emit Withdraw(msg.sender, _pid, _amount);
     }
@@ -168,11 +168,11 @@ contract AceLab is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
 
         uint oldUserAmount = user.amount;
-        pool.xBooStakedAmount -= user.amount;
+        pool.xULXStakedAmount -= user.amount;
         user.amount = 0;
         user.rewardDebt = 0;
 
-        xboo.safeTransfer(address(msg.sender), oldUserAmount);
+        xULX.safeTransfer(address(msg.sender), oldUserAmount);
         emit EmergencyWithdraw(msg.sender, _pid, oldUserAmount);
 
     }
@@ -217,7 +217,7 @@ contract AceLab is Ownable {
     }
 
     function recoverWrongTokens(address _tokenAddress) external onlyOwner {
-        require(_tokenAddress != address(xboo), "recoverWrongTokens: Cannot be xboo");
+        require(_tokenAddress != address(xULX), "recoverWrongTokens: Cannot be xULX");
         checkForToken(IERC20(_tokenAddress));
         
         uint bal = IERC20(_tokenAddress).balanceOf(address(this));
@@ -244,7 +244,7 @@ contract AceLab is Ownable {
             RewardToken: _Token,
             RewardPerSecond: _rewardPerSecond,
             TokenPrecision: precision,
-            xBooStakedAmount: 0,
+            xULXStakedAmount: 0,
             startTime: _startTime,
             endTime: _endTime,
             lastRewardTime: lastRewardTime,
