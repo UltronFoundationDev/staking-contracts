@@ -23,7 +23,6 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
 
     address public immutable xULX;
     address private immutable wULX;
-    address private immutable weth;
     uint public devCut;  // in basis points aka parts per 10,000 so 5000 is 50%, cap of 50%, default is 0
     uint public constant BOUNTY_FEE = 10;
     address public devAddr;
@@ -50,7 +49,7 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
     mapping(address => bool) public overrode;
     mapping(address => bool) public swapperApproved;
 
-    //token bridges to try in order when swapping, first three are immutably weth, usdc, dai
+    //token bridges to try in order when swapping, first three are immutably wULX, usdc, dai
     mapping(uint => address) public bridgeRoute;
     uint public bridgeRouteAmount = 3; // "array" size aka next free slot in the mapping
     mapping(address => address) public lastRoute; //tokens last succesful route, will be tried first
@@ -72,18 +71,18 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
         address _factory,
         address _xULX,
         address _wULX,
-        address _weth
+        address _usds,
+        address _dai
     ) {
         factory = IUniswapV2Factory(_factory);
         xULX = _xULX;
         wULX = _wULX;
-        weth = _weth;
         devAddr = msg.sender;
         isAuth[msg.sender] = true;
         authorized.push(msg.sender);
-        bridgeRoute[0] = _weth;
-        bridgeRoute[1] = 0x04068DA6C83AFCFA0e13ba15A6696662335D5B75;
-        bridgeRoute[2] = 0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E;
+        bridgeRoute[0] = _wULX;
+        bridgeRoute[1] = _usds;
+        bridgeRoute[2] = _dai;
         swapper = new Swapper();
     }
 
@@ -166,7 +165,7 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
     function setBridge(address token, address bridge) external onlyAuth {
         // Checks
         require(
-            token != wULX && token != weth && token != bridge,
+            token != wULX && token != bridge,
             "BrewULX: Invalid bridge"
         );
 
@@ -228,7 +227,7 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
             unchecked {++i;}
         }
 
-        converted[weth] = block.number; // weth is done last
+        converted[wULX] = block.number; // wULX is done last
         for (i = 0; i < len;) {
             if(block.number > converted[token0[i]]) {
                 _convertStep(token0[i], IERC20(token0[i]).balanceOf(address(this)));
@@ -240,9 +239,6 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
             }
             unchecked {++i;}
         }
-        // final step is to swap all weth to wULX and disperse it
-        uint wethBal = IERC20(weth).balanceOf(address(this));
-        _towULX(weth, wethBal);
         _dispersewULX();
     }
 
@@ -255,7 +251,7 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
         // Interactions
         uint256 amount = amount0;
         bool success = false;
-        if (token0 == wULX || token0 == weth) {
+        if (token0 == wULX) {
             return true;
         } else {
             address bridge;
@@ -316,18 +312,5 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
         } catch {
             return (amountIn, false);
         }
-    }
-
-    function _towULX(address token, uint256 amountIn) internal returns (uint256 amountOut) {
-        uint256 amount = amountIn;
-        bool success;
-        if (devCut > 0) {
-            amount = amount.mul(devCut).div(10000);
-            IERC20(token).safeTransfer(devAddr, amount);
-            amount = amountIn.sub(amount);
-        }
-        (amountOut, success) = _swap(token, wULX, amount);
-        if(!success)
-            revert("BrewULXV3: swap failure in towULX");
     }
 }
