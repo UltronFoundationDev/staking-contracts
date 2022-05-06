@@ -35,7 +35,7 @@ contract Swapper is ISwapper, Ownable {
         uint256 amountIn
     ) external onlyOwner returns (uint256 amountOut) {
         IUniswapV2Pair pair = IUniswapV2Pair(_pair);
-        require(address(pair) != address(0), "BrewBoo: Cannot convert");
+        require(address(pair) != address(0), "BrewULX: Cannot convert");
 
         (uint256 reserve0, uint256 reserve1, ) = pair.getReserves();
         (uint reserveInput, uint reserveOutput) = fromToken == pair.token0() ? (reserve0, reserve1) : (reserve1, reserve0);
@@ -50,8 +50,8 @@ contract Swapper is ISwapper, Ownable {
     }
 
     function _getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {
-        require(amountIn > 0, 'BrewBoo: INSUFFICIENT_INPUT_AMOUNT');
-        require(reserveIn > 0 && reserveOut > 0, 'BrewBoo: INSUFFICIENT_LIQUIDITY');
+        require(amountIn > 0, 'BrewULX: INSUFFICIENT_INPUT_AMOUNT');
+        require(reserveIn > 0 && reserveOut > 0, 'BrewULX: INSUFFICIENT_LIQUIDITY');
         uint amountInWithFee = amountIn.mul(998);
         uint numerator = amountInWithFee.mul(reserveOut);
         uint denominator = reserveIn.mul(1000).add(amountInWithFee);
