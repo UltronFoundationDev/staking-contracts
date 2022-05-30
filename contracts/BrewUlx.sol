@@ -71,8 +71,8 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
         address _factory,
         address _xULX,
         address _wULX,
-        address _usds,
-        address _dai
+        address _router1,
+        address _router2
     ) {
         factory = IUniswapV2Factory(_factory);
         xULX = _xULX;
@@ -81,8 +81,8 @@ contract BrewULXV3 is Ownable, ReentrancyGuard {
         isAuth[msg.sender] = true;
         authorized.push(msg.sender);
         bridgeRoute[0] = _wULX;
-        bridgeRoute[1] = _usds;
-        bridgeRoute[2] = _dai;
+        bridgeRoute[1] = _router1;
+        bridgeRoute[2] = _router2;
         swapper = new Swapper();
     }
 
