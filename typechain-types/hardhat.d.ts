@@ -41,10 +41,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BrewULX__factory>;
     getContractFactory(
-      name: "BrewULXV3",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BrewULXV3__factory>;
-    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -116,11 +112,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.BrewULX>;
-    getContractAt(
-      name: "BrewULXV3",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BrewULXV3>;
     getContractAt(
       name: "IERC20",
       address: string,

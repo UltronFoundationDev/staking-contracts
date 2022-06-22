@@ -1,6 +1,18 @@
 import { subtask, task, types } from "hardhat/config";
 
-task("deploy", "Deploy MasterChef")
+let xUlxAddress: string
+
+async function deployContract(ethers: any, name: string, ...params: any[]) {
+    const Contract = await ethers.getContractFactory(name);
+    const contract = await Contract.deploy(...params);
+    await contract.deployed();
+    if (name === "ULXMirrorWorld") {
+        xUlxAddress = contract.address
+    }
+    console.log(`${name} deployed to: ${contract.address}`);
+}
+
+task("deploy", "Deploy Staking Contracts")
   .addParam("contracts", "Sting with names deploy contracts")
   .addOptionalParam("wulx", "wULX address")
   .addOptionalParam("xulx", "xULX address")
@@ -8,25 +20,16 @@ task("deploy", "Deploy MasterChef")
   .addOptionalParam("r1", "Router1 for brewULX address")
   .addOptionalParam("r2", "Router2 for brewULX address")
   .setAction(async (taskArgs, { ethers, run }) => {
-  let xUlxAddress: string = taskArgs.xulx
+  xUlxAddress = taskArgs.xulx
     const contracts = taskArgs.contracts.split(" ");
     if (contracts.includes("xulx")) {
-        const xULX = await ethers.getContractFactory("ULXMirrorWorld");
-        const xUlxContract = await xULX.deploy(taskArgs.wulx);
-        await xUlxContract.deployed();
-        xUlxAddress = xUlxContract.address
-        console.log("xULX deployed to:", xUlxContract.address);
+        await deployContract(ethers, "ULXMirrorWorld", taskArgs.wulx)
     };
     if (contracts.includes("acelab")) {
-        const AceLab = await ethers.getContractFactory("AceLab");
-        const aceLab = await AceLab.deploy(xUlxAddress);
-        await aceLab.deployed();
-        console.log("AceLab deployed to:", aceLab.address);
+        await deployContract(ethers, "AceLab", xUlxAddress)
+
     };
     if (contracts.includes("brewulx")) {
-        const BrewULX = await ethers.getContractFactory("BrewULX");
-        const brewULX = await BrewULX.deploy(taskArgs.factory, xUlxAddress, taskArgs.wulx, taskArgs.r1, taskArgs.r2);
-        await brewULX.deployed();
-        console.log("BrewULX deployed to:", brewULX.address);
+        await deployContract(ethers, "BrewULX", taskArgs.factory, xUlxAddress, taskArgs.wulx, taskArgs.r1, taskArgs.r2)
     };
   });

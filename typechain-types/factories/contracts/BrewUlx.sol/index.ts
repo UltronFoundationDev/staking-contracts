@@ -2,4 +2,3 @@
 /* tslint:disable */
 /* eslint-disable */
 export { BrewULX__factory } from "./BrewULX__factory";
-export { BrewULXV3__factory } from "./BrewULXV3__factory";
