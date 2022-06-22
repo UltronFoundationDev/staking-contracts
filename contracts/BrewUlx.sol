@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // P1 - P3: OK
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 
 import '@openzeppelin/contracts/access/Ownable.sol';
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -14,7 +14,7 @@ import "./Swapper.sol";
 // BrewULX is MasterChef's left hand and kinda a wizard. He can brew wULX from pretty much anything!
 // This contract handles "serving up" rewards for xULX holders by trading tokens collected from fees for wULX.
 // The caller of convertMultiple, the function responsible for converting fees to wULX earns a 0.1% reward for calling.
-contract BrewULXV3 is Ownable, ReentrancyGuard {
+contract BrewULX is Ownable, ReentrancyGuard {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
