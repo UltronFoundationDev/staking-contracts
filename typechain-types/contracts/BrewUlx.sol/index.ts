@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { BrewULX } from "./BrewULX";
+export type { BrewUlx } from "./BrewUlx";

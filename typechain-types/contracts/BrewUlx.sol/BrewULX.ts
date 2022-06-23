@@ -31,66 +31,62 @@ export interface BrewULXInterface extends utils.Interface {
   functions: {
     "BOUNTY_FEE()": FunctionFragment;
     "addAuth(address)": FunctionFragment;
-    "anyAuth()": FunctionFragment;
     "authorized(uint256)": FunctionFragment;
     "bridgeRoute(uint256)": FunctionFragment;
     "bridgeRouteAmount()": FunctionFragment;
-    "checkedConvertMultiple(address[],address[],uint256[])": FunctionFragment;
-    "convertMultiple(address[],address[])": FunctionFragment;
+    "convertMultiple(address[],address[],uint256[])": FunctionFragment;
     "devAddr()": FunctionFragment;
     "devCut()": FunctionFragment;
     "factory()": FunctionFragment;
     "isAuth(address)": FunctionFragment;
     "lastRoute(address)": FunctionFragment;
+    "migrate(address[])": FunctionFragment;
     "overrideSlippage(address)": FunctionFragment;
     "overrode(address)": FunctionFragment;
     "owner()": FunctionFragment;
+    "pairOf(address,address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "revokeAuth(address)": FunctionFragment;
-    "setAnyAuth()": FunctionFragment;
     "setBridge(address,address)": FunctionFragment;
     "setBridgeRoute(uint256,address)": FunctionFragment;
     "setBridgeRouteAmount(uint256)": FunctionFragment;
     "setDevAddr(address)": FunctionFragment;
-    "setDevCut(uint256)": FunctionFragment;
     "setSlippage(uint256)": FunctionFragment;
     "swapper()": FunctionFragment;
     "swapperApproved(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "xULX()": FunctionFragment;
+    "xulx()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "BOUNTY_FEE"
       | "addAuth"
-      | "anyAuth"
       | "authorized"
       | "bridgeRoute"
       | "bridgeRouteAmount"
-      | "checkedConvertMultiple"
       | "convertMultiple"
       | "devAddr"
       | "devCut"
       | "factory"
       | "isAuth"
       | "lastRoute"
+      | "migrate"
       | "overrideSlippage"
       | "overrode"
       | "owner"
+      | "pairOf"
       | "renounceOwnership"
       | "revokeAuth"
-      | "setAnyAuth"
       | "setBridge"
       | "setBridgeRoute"
       | "setBridgeRouteAmount"
       | "setDevAddr"
-      | "setDevCut"
       | "setSlippage"
       | "swapper"
       | "swapperApproved"
       | "transferOwnership"
-      | "xULX"
+      | "xulx"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -101,7 +97,6 @@ export interface BrewULXInterface extends utils.Interface {
     functionFragment: "addAuth",
     values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "anyAuth", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "authorized",
     values: [PromiseOrValue<BigNumberish>]
@@ -115,16 +110,12 @@ export interface BrewULXInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "checkedConvertMultiple",
+    functionFragment: "convertMultiple",
     values: [
       PromiseOrValue<string>[],
       PromiseOrValue<string>[],
       PromiseOrValue<BigNumberish>[]
     ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "convertMultiple",
-    values: [PromiseOrValue<string>[], PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(functionFragment: "devAddr", values?: undefined): string;
   encodeFunctionData(functionFragment: "devCut", values?: undefined): string;
@@ -138,6 +129,10 @@ export interface BrewULXInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "migrate",
+    values: [PromiseOrValue<string>[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "overrideSlippage",
     values: [PromiseOrValue<string>]
   ): string;
@@ -147,16 +142,16 @@ export interface BrewULXInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "pairOf",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "revokeAuth",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setAnyAuth",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "setBridge",
@@ -175,10 +170,6 @@ export interface BrewULXInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setDevCut",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setSlippage",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -191,11 +182,10 @@ export interface BrewULXInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "xULX", values?: undefined): string;
+  encodeFunctionData(functionFragment: "xulx", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "BOUNTY_FEE", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addAuth", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "anyAuth", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "authorized", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "bridgeRoute",
@@ -203,10 +193,6 @@ export interface BrewULXInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "bridgeRouteAmount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "checkedConvertMultiple",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -218,18 +204,19 @@ export interface BrewULXInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isAuth", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lastRoute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "migrate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "overrideSlippage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "overrode", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pairOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeAuth", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setAnyAuth", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setBridge", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setBridgeRoute",
@@ -240,7 +227,6 @@ export interface BrewULXInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setDevAddr", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setDevCut", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setSlippage",
     data: BytesLike
@@ -254,27 +240,23 @@ export interface BrewULXInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "xULX", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "xulx", data: BytesLike): Result;
 
   events: {
     "LogBridgeSet(address,address)": EventFragment;
     "LogConvert(address,address,uint256,uint256)": EventFragment;
-    "LogSetAnyAuth()": EventFragment;
     "LogSlippageOverrode(address)": EventFragment;
     "LogToggleOverrode(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "SetDevAddr(address)": EventFragment;
-    "SetDevCut(uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "LogBridgeSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogConvert"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "LogSetAnyAuth"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogSlippageOverrode"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogToggleOverrode"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "SetDevAddr"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "SetDevCut"): EventFragment;
 }
 
 export interface LogBridgeSetEventObject {
@@ -292,7 +274,7 @@ export interface LogConvertEventObject {
   server: string;
   token0: string;
   amount0: BigNumber;
-  amountwULX: BigNumber;
+  amountWULX: BigNumber;
 }
 export type LogConvertEvent = TypedEvent<
   [string, string, BigNumber, BigNumber],
@@ -300,11 +282,6 @@ export type LogConvertEvent = TypedEvent<
 >;
 
 export type LogConvertEventFilter = TypedEventFilter<LogConvertEvent>;
-
-export interface LogSetAnyAuthEventObject {}
-export type LogSetAnyAuthEvent = TypedEvent<[], LogSetAnyAuthEventObject>;
-
-export type LogSetAnyAuthEventFilter = TypedEventFilter<LogSetAnyAuthEvent>;
 
 export interface LogSlippageOverrodeEventObject {
   _adr: string;
@@ -347,13 +324,6 @@ export type SetDevAddrEvent = TypedEvent<[string], SetDevAddrEventObject>;
 
 export type SetDevAddrEventFilter = TypedEventFilter<SetDevAddrEvent>;
 
-export interface SetDevCutEventObject {
-  _amount: BigNumber;
-}
-export type SetDevCutEvent = TypedEvent<[BigNumber], SetDevCutEventObject>;
-
-export type SetDevCutEventFilter = TypedEventFilter<SetDevCutEvent>;
-
 export interface BrewULX extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -388,8 +358,6 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    anyAuth(overrides?: CallOverrides): Promise<[boolean]>;
-
     authorized(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -402,16 +370,10 @@ export interface BrewULX extends BaseContract {
 
     bridgeRouteAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    checkedConvertMultiple(
-      token0: PromiseOrValue<string>[],
-      token1: PromiseOrValue<string>[],
-      minimumBalances: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     convertMultiple(
       token0: PromiseOrValue<string>[],
       token1: PromiseOrValue<string>[],
+      LPamounts: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -431,6 +393,11 @@ export interface BrewULX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    migrate(
+      tokens: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     overrideSlippage(
       _token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -443,16 +410,18 @@ export interface BrewULX extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    pairOf(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     revokeAuth(
       _auth: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setAnyAuth(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -478,11 +447,6 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setDevCut(
-      _amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setSlippage(
       _amt: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -500,7 +464,7 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    xULX(overrides?: CallOverrides): Promise<[string]>;
+    xulx(overrides?: CallOverrides): Promise<[string]>;
   };
 
   BOUNTY_FEE(overrides?: CallOverrides): Promise<BigNumber>;
@@ -509,8 +473,6 @@ export interface BrewULX extends BaseContract {
     _auth: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  anyAuth(overrides?: CallOverrides): Promise<boolean>;
 
   authorized(
     arg0: PromiseOrValue<BigNumberish>,
@@ -524,16 +486,10 @@ export interface BrewULX extends BaseContract {
 
   bridgeRouteAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  checkedConvertMultiple(
-    token0: PromiseOrValue<string>[],
-    token1: PromiseOrValue<string>[],
-    minimumBalances: PromiseOrValue<BigNumberish>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   convertMultiple(
     token0: PromiseOrValue<string>[],
     token1: PromiseOrValue<string>[],
+    LPamounts: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -553,6 +509,11 @@ export interface BrewULX extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  migrate(
+    tokens: PromiseOrValue<string>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   overrideSlippage(
     _token: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -565,16 +526,18 @@ export interface BrewULX extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  pairOf(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   revokeAuth(
     _auth: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setAnyAuth(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -600,11 +563,6 @@ export interface BrewULX extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setDevCut(
-    _amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setSlippage(
     _amt: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -622,7 +580,7 @@ export interface BrewULX extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  xULX(overrides?: CallOverrides): Promise<string>;
+  xulx(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     BOUNTY_FEE(overrides?: CallOverrides): Promise<BigNumber>;
@@ -631,8 +589,6 @@ export interface BrewULX extends BaseContract {
       _auth: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    anyAuth(overrides?: CallOverrides): Promise<boolean>;
 
     authorized(
       arg0: PromiseOrValue<BigNumberish>,
@@ -646,16 +602,10 @@ export interface BrewULX extends BaseContract {
 
     bridgeRouteAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    checkedConvertMultiple(
-      token0: PromiseOrValue<string>[],
-      token1: PromiseOrValue<string>[],
-      minimumBalances: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     convertMultiple(
       token0: PromiseOrValue<string>[],
       token1: PromiseOrValue<string>[],
+      LPamounts: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -675,6 +625,11 @@ export interface BrewULX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    migrate(
+      tokens: PromiseOrValue<string>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     overrideSlippage(
       _token: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -687,14 +642,18 @@ export interface BrewULX extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<string>;
 
+    pairOf(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     revokeAuth(
       _auth: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    setAnyAuth(overrides?: CallOverrides): Promise<void>;
 
     setBridge(
       token: PromiseOrValue<string>,
@@ -715,11 +674,6 @@ export interface BrewULX extends BaseContract {
 
     setDevAddr(
       _addr: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setDevCut(
-      _amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -740,7 +694,7 @@ export interface BrewULX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    xULX(overrides?: CallOverrides): Promise<string>;
+    xulx(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -757,17 +711,14 @@ export interface BrewULX extends BaseContract {
       server?: PromiseOrValue<string> | null,
       token0?: PromiseOrValue<string> | null,
       amount0?: null,
-      amountwULX?: null
+      amountWULX?: null
     ): LogConvertEventFilter;
     LogConvert(
       server?: PromiseOrValue<string> | null,
       token0?: PromiseOrValue<string> | null,
       amount0?: null,
-      amountwULX?: null
+      amountWULX?: null
     ): LogConvertEventFilter;
-
-    "LogSetAnyAuth()"(): LogSetAnyAuthEventFilter;
-    LogSetAnyAuth(): LogSetAnyAuthEventFilter;
 
     "LogSlippageOverrode(address)"(_adr?: null): LogSlippageOverrodeEventFilter;
     LogSlippageOverrode(_adr?: null): LogSlippageOverrodeEventFilter;
@@ -786,9 +737,6 @@ export interface BrewULX extends BaseContract {
 
     "SetDevAddr(address)"(_addr?: null): SetDevAddrEventFilter;
     SetDevAddr(_addr?: null): SetDevAddrEventFilter;
-
-    "SetDevCut(uint256)"(_amount?: null): SetDevCutEventFilter;
-    SetDevCut(_amount?: null): SetDevCutEventFilter;
   };
 
   estimateGas: {
@@ -798,8 +746,6 @@ export interface BrewULX extends BaseContract {
       _auth: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
-
-    anyAuth(overrides?: CallOverrides): Promise<BigNumber>;
 
     authorized(
       arg0: PromiseOrValue<BigNumberish>,
@@ -813,16 +759,10 @@ export interface BrewULX extends BaseContract {
 
     bridgeRouteAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    checkedConvertMultiple(
-      token0: PromiseOrValue<string>[],
-      token1: PromiseOrValue<string>[],
-      minimumBalances: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     convertMultiple(
       token0: PromiseOrValue<string>[],
       token1: PromiseOrValue<string>[],
+      LPamounts: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -842,6 +782,11 @@ export interface BrewULX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    migrate(
+      tokens: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     overrideSlippage(
       _token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -854,16 +799,18 @@ export interface BrewULX extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pairOf(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     revokeAuth(
       _auth: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setAnyAuth(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -886,11 +833,6 @@ export interface BrewULX extends BaseContract {
 
     setDevAddr(
       _addr: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setDevCut(
-      _amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -911,7 +853,7 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    xULX(overrides?: CallOverrides): Promise<BigNumber>;
+    xulx(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -921,8 +863,6 @@ export interface BrewULX extends BaseContract {
       _auth: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
-
-    anyAuth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     authorized(
       arg0: PromiseOrValue<BigNumberish>,
@@ -936,16 +876,10 @@ export interface BrewULX extends BaseContract {
 
     bridgeRouteAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    checkedConvertMultiple(
-      token0: PromiseOrValue<string>[],
-      token1: PromiseOrValue<string>[],
-      minimumBalances: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     convertMultiple(
       token0: PromiseOrValue<string>[],
       token1: PromiseOrValue<string>[],
+      LPamounts: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -965,6 +899,11 @@ export interface BrewULX extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    migrate(
+      tokens: PromiseOrValue<string>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     overrideSlippage(
       _token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -977,16 +916,18 @@ export interface BrewULX extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    pairOf(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     revokeAuth(
       _auth: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setAnyAuth(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1012,11 +953,6 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setDevCut(
-      _amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setSlippage(
       _amt: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1034,6 +970,6 @@ export interface BrewULX extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    xULX(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    xulx(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

@@ -18,6 +18,8 @@ export type { AceLab } from "./contracts/AceLab.sol/AceLab";
 export { AceLab__factory } from "./factories/contracts/AceLab.sol/AceLab__factory";
 export type { IERC20Ext } from "./contracts/AceLab.sol/IERC20Ext";
 export { IERC20Ext__factory } from "./factories/contracts/AceLab.sol/IERC20Ext__factory";
+export type { BrewUlx } from "./contracts/BrewUlx.sol/BrewUlx";
+export { BrewUlx__factory } from "./factories/contracts/BrewUlx.sol/BrewUlx__factory";
 export type { BrewULX } from "./contracts/BrewUlx.sol/BrewULX";
 export { BrewULX__factory } from "./factories/contracts/BrewUlx.sol/BrewULX__factory";
 export type { ISwapper } from "./contracts/interfaces/ISwapper";

@@ -103,7 +103,7 @@ export interface ISwapper extends BaseContract {
 
     swap(
       fromToken: PromiseOrValue<string>,
-      toToken: PromiseOrValue<string>,
+      pair: PromiseOrValue<string>,
       amountIn: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -121,7 +121,7 @@ export interface ISwapper extends BaseContract {
 
   swap(
     fromToken: PromiseOrValue<string>,
-    toToken: PromiseOrValue<string>,
+    pair: PromiseOrValue<string>,
     amountIn: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -139,7 +139,7 @@ export interface ISwapper extends BaseContract {
 
     swap(
       fromToken: PromiseOrValue<string>,
-      toToken: PromiseOrValue<string>,
+      pair: PromiseOrValue<string>,
       amountIn: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -160,7 +160,7 @@ export interface ISwapper extends BaseContract {
 
     swap(
       fromToken: PromiseOrValue<string>,
-      toToken: PromiseOrValue<string>,
+      pair: PromiseOrValue<string>,
       amountIn: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -179,7 +179,7 @@ export interface ISwapper extends BaseContract {
 
     swap(
       fromToken: PromiseOrValue<string>,
-      toToken: PromiseOrValue<string>,
+      pair: PromiseOrValue<string>,
       amountIn: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

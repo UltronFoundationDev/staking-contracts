@@ -44,8 +44,8 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "address",
-        name: "toToken",
+        internalType: "contract IUniswapV2Pair",
+        name: "pair",
         type: "address",
       },
       {

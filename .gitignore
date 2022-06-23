@@ -6,3 +6,7 @@ cache
 artifacts
 .idea
 .deps
+package-lock.json
+yarn.lock
+typechain-types/
+typechain/
