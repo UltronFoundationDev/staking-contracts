@@ -73,7 +73,7 @@ describe("xULX tests", () => {
         expect(await xUlx.connect(owner).wULXForxULX(amount)).equals(amount);
     });
 
-    it("Enter and redeem xULX", async () => {
+    it("Enter and expect wULX", async () => {
         const amount = ethers.utils.parseEther("10");
         await weth.connect(owner).approve(xUlx.address, amount);
         await xUlx.connect(owner).enter(amount);
