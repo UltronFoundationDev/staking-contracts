@@ -27,6 +27,15 @@ const config: HardhatUserConfig = {
           }
         }
       },
+      {
+        version: "0.6.12",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200
+          }
+        }
+      },
     ],
   },
   contractSizer: {
@@ -44,7 +53,7 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
       forking: {
-        url: "https://main-light.eth.linkpool.io",
+        url: "https://eth-mainnet.g.alchemy.com/v2/i2LgfhBeI-JidguSNlFuToo7kPSkFBPb",
         blockNumber: 11095000,
       },
       gas: 2100000,
@@ -56,7 +65,7 @@ const config: HardhatUserConfig = {
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     ethereum: {
-      url: "https://main-light.eth.linkpool.io/",
+      url: "https://eth-mainnet.g.alchemy.com/v2/i2LgfhBeI-JidguSNlFuToo7kPSkFBPb",
       chainId: 1,
       gasPrice: 30000000000,
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
@@ -84,12 +93,12 @@ const config: HardhatUserConfig = {
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     ultron_testnet: {
-      url: `http://51.250.34.31:18545`,
+      url: `https://ultron-dev.io`,
       chainId: 1230,
       accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
     goerli: {
-      url: `https://goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      url: `${process.env.API_URL}`,
       chainId: 5,
       gas: 2100000,
       gasPrice: 8000000000,
