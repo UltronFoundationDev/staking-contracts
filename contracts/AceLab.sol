@@ -72,7 +72,7 @@ contract AceLab is Ownable {
         return _to - _from;
     }
 
-    // View function to see pending wULXs on frontend.
+    // View function to see pending reward tokens on frontend.
     function pendingReward(uint256 _pid, address _user) external view returns (uint256) {
         PoolInfo memory pool = poolInfo[_pid];
         UserInfo memory user = userInfo[_pid][_user];
