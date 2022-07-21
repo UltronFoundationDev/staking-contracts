@@ -188,7 +188,7 @@ contract UniswapV2Pair is UniswapV2ERC20 {
         uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
         uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
 
-        require(balance0Adjusted.add(fee0).mul(balance1Adjusted.add(fee1)) >= uint(_reserve0 - fee0).mul(_reserve1 - fee1).mul(1000**2), 'UniswapV2: K');
+        require(balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0 - fee0).mul(_reserve1 - fee1).mul(1000**2), 'UniswapV2: K');
         }
         {   
         address _token0 = token0;
