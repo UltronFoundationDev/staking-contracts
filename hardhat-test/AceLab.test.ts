@@ -69,7 +69,7 @@ describe("AceLab tests", () => {
         lp = await (await new ERC20Mock__factory(owner).deploy("LP", "LP", ethers.utils.parseEther("1000"))).deployed();
     });
 
-    it("add lp token to pools\n", async () => {
+    it("add lp token to pools", async () => {
         await expect(aceLab.connect(account).add(100, lp.address, Date.now() - 10, Date.now() * 365, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, Date.now() - 10, Date.now() * 365, owner.address);
         await expect(aceLab.connect(owner).add(100, lp.address, Date.now() - 10, Date.now() * 365, owner.address)).to.be.reverted;
@@ -77,7 +77,7 @@ describe("AceLab tests", () => {
         expect(1).equals(await aceLab.poolLength());
     });
 
-    it("add load of lp tokens to pools\n", async () => {
+    it("add load of lp tokens to pools", async () => {
         const tokensCount = 10;
         for(let i: number = 0; i < tokensCount; i++) {
             const tokenLp = await (await new ERC20Mock__factory(owner).deploy("LP", "LP", ethers.utils.parseEther("100"))).deployed();
@@ -87,7 +87,7 @@ describe("AceLab tests", () => {
         expect(tokensCount).equals(await aceLab.poolLength());
     });
 
-    it("add lp token to pools and change reward per second\n", async () => {
+    it("add lp token to pools and change reward per second", async () => {
         await expect(aceLab.connect(account).add(100, lp.address, Date.now() - 10, Date.now() * 365, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, Date.now() - 10, Date.now() * 365, owner.address);
 
@@ -98,7 +98,7 @@ describe("AceLab tests", () => {
         expect(1).equals(await aceLab.poolLength());
     });
 
-    it("add lp token to pools and change End Time\n", async () => {
+    it("add lp token to pools and change End Time", async () => {
         const dateNow = Date.now();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow - 10, dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow - 10, dateNow, owner.address);
@@ -111,7 +111,7 @@ describe("AceLab tests", () => {
         expect((await aceLab.poolInfo(0)).endTime).equals(dateNow + 1000);
     });
 
-    it("add lp token to pools and stop reward\n", async () => {
+    it("add lp token to pools and stop reward", async () => {
         const dateNow = Date.now();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow - 10, dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow - 10, dateNow, owner.address);
@@ -124,7 +124,7 @@ describe("AceLab tests", () => {
         expect((await aceLab.poolInfo(0)).endTime).equals(BigNumber.from('11095107'));
     });
 
-    it("add lp token to pools and change Pool UserLimit EndTime\n", async () => {
+    it("add lp token to pools and change Pool UserLimit EndTime", async () => {
         const dateNow = Date.now();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow - 10, dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow - 10, dateNow, owner.address);
@@ -137,21 +137,21 @@ describe("AceLab tests", () => {
         expect((await aceLab.poolInfo(0)).userLimitEndTime).equals(dateNow + 100);
     });
 
-    it("change UserLimit\n", async () => {
+    it("change UserLimit", async () => {
         await expect(aceLab.connect(account).changeUserLimit(5)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).changeUserLimit(5);
 
         expect(await aceLab.baseUserLimit()).equals(5);
     });
 
-    it("change BaseUserLimitTime\n", async () => {
+    it("change BaseUserLimitTime", async () => {
         await expect(aceLab.connect(account).changeBaseUserLimitTime(86400)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).changeBaseUserLimitTime(86400);
 
         expect(await aceLab.baseUserLimitTime()).equals(86400);
     });
 
-    it("recoverWrongTokens\n", async () => {
+    it("recoverWrongTokens", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).recoverWrongTokens(lp.address)).revertedWith("Ownable: caller is not the owner");
         await expect(aceLab.connect(owner).recoverWrongTokens(xUlx.address)).revertedWith("recoverWrongTokens: Cannot be xULX");
@@ -165,7 +165,7 @@ describe("AceLab tests", () => {
         expect(await token0.connect(owner).totalSupply()).equals(await token0.connect(owner).balanceOf(owner.address));
     });
 
-    it("deposit\n", async () => {
+    it("deposit", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), owner.address);
@@ -187,7 +187,7 @@ describe("AceLab tests", () => {
         expect(expected).equals(await aceLab.connect(account).pendingReward(0, account.address))
     }); 
 
-    it("deposit with user deposit cap\n", async () => {
+    it("deposit with user deposit cap", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), owner.address);
@@ -214,7 +214,7 @@ describe("AceLab tests", () => {
         await expect(aceLab.connect(account).deposit(0, transferAmount)).revertedWith("deposit: user has hit deposit cap");
     }); 
 
-    it("deposit and instant withdraw\n", async () => {
+    it("deposit and instant withdraw", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), owner.address);
@@ -235,7 +235,7 @@ describe("AceLab tests", () => {
         expect(expected).equals(0);
     }); 
 
-    it("deposit and withdraw after waiting\n", async () => {
+    it("deposit and withdraw after waiting", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), owner.address);
@@ -267,7 +267,7 @@ describe("AceLab tests", () => {
         expect(expectedWithdraw).equals(await lp.balanceOf(account.address));
     }); 
 
-    it("deposit and emergency withdraw\n", async () => {
+    it("deposit and emergency withdraw", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), owner.address);
@@ -284,7 +284,7 @@ describe("AceLab tests", () => {
         expect(0).equals(await lp.balanceOf(account.address));
     });
     
-    it("deposit and emergencyRewardWithdraw after waiting\n", async () => {
+    it("deposit and emergencyRewardWithdraw after waiting", async () => {
         const dateNow = await Helpers.latest();
         await expect(aceLab.connect(account).add(100, lp.address, dateNow.sub(10), dateNow, owner.address)).revertedWith("Ownable: caller is not the owner");
         await aceLab.connect(owner).add(100, lp.address, dateNow.sub(10), dateNow.add(1000000), treasuryAccount.address);
@@ -312,7 +312,7 @@ describe("AceLab tests", () => {
         expect(transferAmount).equals(await lp.balanceOf(treasuryAccount.address));
     }); 
 
-    // it("two deposits and harvest all\n", async () => {
+    // it("two deposits and harvest all", async () => {
     //     await masterChef.connect(owner).add(100, lp.address);
 
     //     const tokenLp = await (await new ERC20Mock__factory(owner).deploy("LP", "LP", ethers.utils.parseEther("100"))).deployed();

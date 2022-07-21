@@ -21,7 +21,7 @@ library UniswapV2Library {
                 hex'ff',
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'b61c5b5affc6c2a81f8aac79c537fbabd2ee352ff09e4c3c280260326643719e' // init code hash
+                hex'a29af0033eee399543dada68655dfc2dd6dd63162495a92c38fac505e5d7e35b' // init code hash
             ))));
     }
 
@@ -43,7 +43,7 @@ library UniswapV2Library {
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {
         require(amountIn > 0, 'UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'UniswapV2Library: INSUFFICIENT_LIQUIDITY');
-        uint amountInWithFee = amountIn.mul(997);
+        uint amountInWithFee = amountIn.mul(998);
         uint numerator = amountInWithFee.mul(reserveOut);
         uint denominator = reserveIn.mul(1000).add(amountInWithFee);
         amountOut = numerator / denominator;
@@ -54,7 +54,7 @@ library UniswapV2Library {
         require(amountOut > 0, 'UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'UniswapV2Library: INSUFFICIENT_LIQUIDITY');
         uint numerator = reserveIn.mul(amountOut).mul(1000);
-        uint denominator = reserveOut.sub(amountOut).mul(997);
+        uint denominator = reserveOut.sub(amountOut).mul(998);
         amountIn = (numerator / denominator).add(1);
     }
 

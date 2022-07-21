@@ -11,7 +11,7 @@
  import '@nomiclabs/hardhat-waffle';
  import '@nomiclabs/hardhat-ethers';
 
- import "./scripts/deploy/deploy";
+ import "./deploy/deploy";
 
  require("dotenv").config();
 

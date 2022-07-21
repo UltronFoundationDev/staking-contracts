@@ -46,7 +46,7 @@ contract Swapper is ISwapper, Ownable {
 
         require(amountIn > 0, 'BrewBoo: INSUFFICIENT_INPUT_AMOUNT');
         require(ui1 > 0 && ui2 > 0, 'BrewUlx: INSUFFICIENT_LIQUIDITY');
-        amountIn = amountIn.mul(997);
+        amountIn = amountIn.mul(998);
         amountOut = amountIn.mul(ui2) / ui1.mul(1000).add(amountIn);
 
         (ui1, ui2) = isToken0 ? (uint(0), amountOut) : (amountOut, uint(0));
