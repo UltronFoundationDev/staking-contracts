@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { subtask, task, types } from "hardhat/config";
 
 async function deployContract(ethers: any, name: string, ...params: any[]) {
@@ -63,7 +64,7 @@ task("add-tokens", "Adding tokens to aceLab")
   .setAction(async (taskArgs, { ethers, run }) => { 
     const signer = (await ethers.getSigners())[0];
 
-    const aceLabAddress = '0x72423ce6F8240D60094371b177F50B476Ca9d7cf';
+    const aceLabAddress = '0x35980d7b2271966D5250181115Db2C6f65c6EBA0';
     const aceLab = await ethers.getContractAt("AceLab", aceLabAddress, signer);
     
     const treasuryuAddress = "0x68CbD167CB4a15f2400b4B3913252B6D9D9d7613";
@@ -74,11 +75,11 @@ task("add-tokens", "Adding tokens to aceLab")
     const wulx = '0xE2619ab40a445526B0AaDff944F994971d2EAc05';
     const shib = '0x29263214978Db13A1b1cA0381f58Ca7b2054588c';
 
-    const dateNow = Date.now();
+    const dateNow = Math.floor(Date.now() / 1000);
     const tokens = [usdc, avax, dai, wulx, shib];
-    const rewardPerSecond = 1000;
-    for(let i:number = 0; i< tokens.length; i++) {
-        await aceLab.add(rewardPerSecond, tokens[i], dateNow - 10, dateNow * 2, treasuryuAddress);
-        console.log(`Added ${tokens[i]} ${rewardPerSecond}`)
+    const rewardPerSecond = ethers.utils.parseEther("0.000001");
+    for(let i:number = 0; i < tokens.length; i++) {
+        await aceLab.add(rewardPerSecond, tokens[i], BigNumber.from(dateNow).sub(1000), BigNumber.from(dateNow).mul(2), treasuryuAddress, { gasLimit: 1000000 });
+        console.log(`POOL ${i} | ${tokens[i]} | ${rewardPerSecond}`)
     }
   });

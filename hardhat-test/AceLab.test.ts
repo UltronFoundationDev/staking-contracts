@@ -312,26 +312,4 @@ describe("AceLab tests", () => {
         expect(transferAmount).equals(await lp.balanceOf(treasuryAccount.address));
     }); 
 
-    // it("two deposits and harvest all", async () => {
-    //     await masterChef.connect(owner).add(100, lp.address);
-
-    //     const tokenLp = await (await new ERC20Mock__factory(owner).deploy("LP", "LP", ethers.utils.parseEther("100"))).deployed();
-    //     await masterChef.connect(owner).add(100, tokenLp.address);
-
-    //     const transferAmount = ethers.utils.parseEther("10");
-    //     await lp.connect(owner).transfer(someAccount.address, transferAmount);
-    //     await lp.connect(someAccount).approve(masterChef.address, transferAmount)
-    //     await tokenLp.connect(owner).transfer(someAccount.address, transferAmount);
-    //     await tokenLp.connect(someAccount).approve(masterChef.address, transferAmount)
-    //     await masterChef.connect(someAccount).deposit(0, transferAmount);    
-    //     const log1 = await masterChef.connect(someAccount).deposit(1, transferAmount);
-    //     await helpers.advanceTimeAndBlock(100);
-    //     const log2 = await masterChef.connect(someAccount).harvestAll();
-        
-    //     const time1 = await helpers.timestamp(log1.blockNumber)
-    //     const time2 = await helpers.timestamp(log2.blockNumber)
-    //     const expected = (await masterChef.wULXPerSecond()).mul(time2 - time1).add((await masterChef.wULXPerSecond()).div(2))
-    //     expect(expected).equals(await weth.balanceOf(someAccount.address));
-    // }); 
-
 });
