@@ -89,7 +89,7 @@ describe("Swapper tests", () => {
         await token0.connect(account).approve(pair.address, amountIn);
         await swapper.connect(account).swap(token0.address, pair.address, amountIn);
 
-        expect(await token1.balanceOf(account.address)).equals(ethers.BigNumber.from('7132647226986849628'));
+        expect(await token1.balanceOf(account.address)).equals(ethers.BigNumber.from('7127537889619674006'));
     });
 
 });

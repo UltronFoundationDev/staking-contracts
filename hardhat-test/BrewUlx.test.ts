@@ -139,17 +139,17 @@ describe("BrewULX tests", () => {
         await brewUlx.connect(owner).convertMultiple([xUlx.address], [token0.address], [ethers.utils.parseEther("0.005")]);
         expect(await token0.balanceOf(owner.address)).equals(ethers.utils.parseEther('999950'))
         expect(await xUlx.balanceOf(owner.address)).equals(0)
-        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000007972041054542'))
+        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000007960072189270'))
 
         await brewUlx.connect(owner).convertMultiple([token0.address], [weth.address], [ethers.utils.parseEther("0.005")]);
         expect(await token0.balanceOf(owner.address)).equals(ethers.utils.parseEther('999950'))
         expect(await xUlx.balanceOf(owner.address)).equals(0)
-        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000016902811445256'))
+        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000016886379564631'))
 
         await brewUlx.connect(owner).convertMultiple([xUlx.address, token0.address], [token0.address, weth.address], [ethers.utils.parseEther("0.005"), ethers.utils.parseEther("0.005")]);
         expect(await token0.balanceOf(owner.address)).equals(ethers.utils.parseEther('999950'))
         expect(await xUlx.balanceOf(owner.address)).equals(0)
-        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000033788574066121'))
+        expect(await weth.balanceOf(owner.address)).equals(ethers.utils.parseEther('75.000033755748272295'))
 
     });
 

@@ -2,7 +2,7 @@
 pragma solidity =0.6.12;
 pragma experimental ABIEncoderV2;
 
-import "./interfaces//IDAO.sol";
+import "./interfaces/IDAO.sol";
 import "./Multisig.sol";
 
 /// @title Decentralized autonomous organization for Swap_Factory

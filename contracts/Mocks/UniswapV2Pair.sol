@@ -21,8 +21,6 @@ contract UniswapV2Pair is UniswapV2ERC20 {
     address public token0;
     address public token1;
 
-    IUniswapV2Router02 public router; /// @dev UniswapV2Router02
-
     uint112 private reserve0;           /// @dev uses single storage slot, accessible via getReserves
     uint112 private reserve1;           /// @dev uses single storage slot, accessible via getReserves
     uint32  private blockTimestampLast; /// @dev uses single storage slot, accessible via getReserves
@@ -67,11 +65,10 @@ contract UniswapV2Pair is UniswapV2ERC20 {
     } 
 
     // called once by the factory at time of deployment
-    function initialize(address _token0, address _token1, address _router) external {
+    function initialize(address _token0, address _token1) external {
         require(msg.sender == factory, 'UniswapV2: FORBIDDEN'); // sufficient check
         token0 = _token0;
         token1 = _token1;
-        router = IUniswapV2Router02(_router);
     }
 
     // update reserves and, on the first call per block, price accumulators
@@ -194,7 +191,8 @@ contract UniswapV2Pair is UniswapV2ERC20 {
         address _token0 = token0;
         address _token1 = token1;
 
-        address wethAddress = router.WETH();
+        address routerAddress = IUniswapV2Factory(factory).routerAddress();
+        address wethAddress = IUniswapV2Router02(routerAddress).WETH();
         address treasuryAddress = IUniswapV2Factory(factory).treasuryAddress();
         if(IUniswapV2Factory(factory).getPair(_token0, wethAddress) == address(0) 
             || IUniswapV2Factory(factory).getPair(_token1, wethAddress) == address(0) 
@@ -210,11 +208,11 @@ contract UniswapV2Pair is UniswapV2ERC20 {
         else 
         {
             if(fee0 > MINIMUM_LIQUIDITY) {
-                _swapWETHFee(wethAddress, treasuryAddress, fee0, _token0);
+                _swapWETHFee(wethAddress, treasuryAddress, routerAddress, fee0, _token0);
 
             }
             if(fee1 > MINIMUM_LIQUIDITY) {
-                _swapWETHFee(wethAddress, treasuryAddress, fee1, _token1);
+                _swapWETHFee(wethAddress, treasuryAddress, routerAddress, fee1, _token1);
             }
         }
         }
@@ -228,15 +226,15 @@ contract UniswapV2Pair is UniswapV2ERC20 {
         emit Swap(msg.sender, amount0In, amount1In, _amount0Out, _amount1Out, to);
     }
 
-    function _swapWETHFee(address wethAddress, address treasuryAddress, uint fee, address tokenAddress) private {
+    function _swapWETHFee(address wethAddress, address treasuryAddress, address routerAddress, uint fee, address tokenAddress) private {
         address[] memory path = new address[](2);
         path[0] = tokenAddress;
         path[1] = wethAddress;
-        uint[] memory amountsOut = router.getAmountsOut(fee, path);
+        uint[] memory amountsOut = IUniswapV2Router02(routerAddress).getAmountsOut(fee, path);
         uint amountOutMin = amountsOut[amountsOut.length - 1].sub(amountsOut[amountsOut.length - 1].mul(10) / 100);
         
-        IERC20(tokenAddress).approve(address(router), fee);
-        router.swapExactTokensForETH(fee, amountOutMin, path, treasuryAddress, block.timestamp.add(30));
+        IERC20(tokenAddress).approve(routerAddress, fee);
+        IUniswapV2Router02(routerAddress).swapExactTokensForETH(fee, amountOutMin, path, treasuryAddress, block.timestamp.add(30));
     }
 
     // force balances to match reserves
