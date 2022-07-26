@@ -79,13 +79,6 @@ describe("BrewULX tests", () => {
         expect(await brewUlx.connect(owner).isAuth(account.address)).equals(false);
     });
 
-    it("setDevAddr", async () => {
-        await expect(brewUlx.connect(account).setDevAddr(account.address)).to.be.reverted;
-        await expect(brewUlx.connect(owner).setDevAddr(zeroAddress)).to.be.reverted;
-        await brewUlx.connect(owner).setDevAddr(account.address);
-        expect(await brewUlx.connect(owner).devAddr()).equals(account.address);
-    });
-
     it("overrideSlippage", async () => {
         await expect(brewUlx.connect(account).overrideSlippage(token0.address)).to.be.reverted;
         await brewUlx.connect(owner).overrideSlippage(token0.address);

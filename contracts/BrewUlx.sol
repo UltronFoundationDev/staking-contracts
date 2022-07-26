@@ -25,7 +25,6 @@ contract BrewULX is Ownable, ReentrancyGuard {
     address private immutable wulx;
     uint public devCut;  // in basis points aka parts per 10,000 so 5000 is 50%, cap of 50%, default is 0
     uint public constant BOUNTY_FEE = 10;
-    address public devAddr;
     //uint public slippage = 9;
 
     // set of addresses that can perform certain functions
@@ -55,7 +54,6 @@ contract BrewULX is Ownable, ReentrancyGuard {
 
     mapping(address => mapping(address => address)) public pairOf;
 
-    event SetDevAddr(address _addr);
     event LogBridgeSet(address indexed token, address indexed bridge);
     event LogConvert(
         address indexed server,
@@ -76,7 +74,6 @@ contract BrewULX is Ownable, ReentrancyGuard {
         factory = IUniswapV2Factory(_factory);
         xulx = _xulx;
         wulx = _wulx;
-        devAddr = msg.sender;
         isAuth[msg.sender] = true;
         authorized.push(msg.sender);
         bridgeRoute[0] = _wulx;
@@ -128,14 +125,6 @@ contract BrewULX is Ownable, ReentrancyGuard {
         isAuth[_auth] = false;
     }
     
-
-    function setDevAddr(address _addr) external {
-        require(owner() == _msgSender() || devAddr == _msgSender(), "not allowed");
-        require(_addr != address(0), "setDevAddr, address cannot be zero address");
-        devAddr = _addr;
-
-        emit SetDevAddr(_addr);
-    }
     // End owner functions
 
     // onlyAuth type functions
