@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import { subtask, task, types } from "hardhat/config";
+import * as Helpers from './helpers';
 
 async function deployContract(ethers: any, name: string, ...params: any[]) {
     const Contract = await ethers.getContractFactory(name);
@@ -49,7 +50,7 @@ task("brewulx", "The contract BrewUlx is deployed")
   .setAction(async (taskArgs, { ethers, network }) => {
         const signer = (await ethers.getSigners())[0];
 
-        const factoryAddress = '0x985Ed4C56a3d26457B577A7deE52fc1212DFb974';
+        const factoryAddress = '0xbaf935ad5af4d249438f786316b93D77ca90aDb7';
         const route1Address = '0x9d40F4A04C737887a79902Caa7cE8003197D8B1C'; // dai
         const route2Address = '0xFac94031AA8f09e2858F93974178fd70F276EAD1'; // usdc
 
@@ -64,7 +65,7 @@ task("add-tokens", "Adding tokens to aceLab")
   .setAction(async (taskArgs, { ethers, run }) => { 
     const signer = (await ethers.getSigners())[0];
 
-    const aceLabAddress = '0x35980d7b2271966D5250181115Db2C6f65c6EBA0';
+    const aceLabAddress = '0x50404e739741FCa0B77E4a4decd4C4bf66716348';
     const aceLab = await ethers.getContractAt("AceLab", aceLabAddress, signer);
     
     const treasuryAddress = "0xc3898DD94E55eB352bd9a12eec7244288DC915Bf";
@@ -79,7 +80,11 @@ task("add-tokens", "Adding tokens to aceLab")
     const tokens = [usdc, avax, dai, wulx, shib];
     const rewardPerSecond = ethers.utils.parseEther("0.000001");
     for(let i:number = 0; i < tokens.length; i++) {
-        await aceLab.add(rewardPerSecond, tokens[i], BigNumber.from(dateNow).sub(1000), BigNumber.from(dateNow).mul(2), treasuryAddress, { gasLimit: 1000000 });
-        console.log(`POOL ${i} | ${tokens[i]} | ${rewardPerSecond}`)
+        await aceLab.add(rewardPerSecond, tokens[i], BigNumber.from(dateNow).sub(1000), BigNumber.from(dateNow).mul(2), treasuryAddress, { gasLimit: 3000000 });
+        console.log(`POOL ${i} | ${tokens[i]} | ${rewardPerSecond}`);
+        Helpers.delay(4000);
+    }
+    for(let i:number = 0; i < tokens.length; i++) {
+      console.log(await aceLab.poolInfo(i));
     }
   });
