@@ -11,7 +11,7 @@ async function deployContract(ethers: any, name: string, ...params: any[]) {
 
 task("deploy", "Deploy Staking Contracts")
   .setAction(async (taskArgs, { ethers, run }) => {
-    const wulx = '0xE2619ab40a445526B0AaDff944F994971d2EAc05';
+    const wulx = '0x3a4F06431457de873B588846d139EC0d86275d54';
     
     const xulx = await run("xulx", { wulx: wulx });
 
@@ -50,9 +50,9 @@ task("brewulx", "The contract BrewUlx is deployed")
   .setAction(async (taskArgs, { ethers, network }) => {
         const signer = (await ethers.getSigners())[0];
 
-        const factoryAddress = '0xbaf935ad5af4d249438f786316b93D77ca90aDb7';
-        const route1Address = '0x9d40F4A04C737887a79902Caa7cE8003197D8B1C'; // dai
-        const route2Address = '0xFac94031AA8f09e2858F93974178fd70F276EAD1'; // usdc
+        const factoryAddress = '0xe1F0D4a5123Fd0834Be805d84520DFDCd8CF00b7';
+        const route1Address = '0x97FDd294024f50c388e39e73F1705a35cfE87656'; // usdt
+        const route2Address = '0x3c4E0FdeD74876295Ca36F62da289F69E3929cc4'; // usdc
 
         const brewUlxFactory = await ethers.getContractFactory("BrewULX", signer);
         const brewUlx = await (await brewUlxFactory.deploy(factoryAddress, taskArgs.xulx, taskArgs.wulx, route1Address, route2Address)).deployed();
@@ -65,16 +65,24 @@ task("add-tokens", "Adding tokens to aceLab")
   .setAction(async (taskArgs, { ethers, run }) => { 
     const signer = (await ethers.getSigners())[0];
 
-    const aceLabAddress = '0x50404e739741FCa0B77E4a4decd4C4bf66716348';
+    const aceLabAddress = '0xa7cF49a0C559414d51ae607ccc1563D292ECf23A';
     const aceLab = await ethers.getContractAt("AceLab", aceLabAddress, signer);
     
-    const treasuryAddress = "0xc3898DD94E55eB352bd9a12eec7244288DC915Bf";
+    const treasuryAddress = "0xD60e1D7CCf2Bb8E2052079914c333c92D687B965";
 
-    const usdc = '0xFac94031AA8f09e2858F93974178fd70F276EAD1';
-    const avax = '0xA066a85923dFB145B947EB4A74c6e0ad7CEAE193';
-    const dai = '0x9d40F4A04C737887a79902Caa7cE8003197D8B1C';
-    const wulx = '0xE2619ab40a445526B0AaDff944F994971d2EAc05';
-    const shib = '0x29263214978Db13A1b1cA0381f58Ca7b2054588c';
+    const wbtc  = '0xd2b86a80A8f30b83843e247A50eCDc8D843D87dD';
+    const weth  = '0x2318Bf5809a72AaBAdd15a3453A18e50Bbd651Cd';
+    const bnb   = '0x169ac560852ed79af3D97A8977DCf2EBA54A0488';
+    const avax  = '0x6FE94412953D373Ef464b85637218EFA9EAB8e97';
+    const busd  = '0xc7cAc85C1779d2B8ADA94EFfff49A4754865e2E4';
+    const shib  = '0xb5Bb1911cf6C83C1a6E439951C40C2949B0d907f';
+    const matic = '0x6094a1e3919b302E236B447f45c4eb2DeCE9D9F4';
+    const ftm   = '0xE8Ef8A6FE387C2D10951a63ca8f37dB6B8fA02C1';
+    const dai   = '0x045F0f2DE758743c84b756B1Fca735a0dDf0b8f4';
+    const link  = '0xc8Fb7999d62072E12fE8f3EDcd7821204FCa0344';
+    const usdt  = '0x97FDd294024f50c388e39e73F1705a35cfE87656';
+    const usdc  = '0x3c4E0FdeD74876295Ca36F62da289F69E3929cc4';
+    const wulx  = '0x3a4F06431457de873B588846d139EC0d86275d54';
 
     const dateNow = Math.floor(Date.now() / 1000);
     const tokens = [usdc, avax, dai, wulx, shib];
