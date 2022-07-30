@@ -96,3 +96,35 @@ task("add-tokens", "Adding tokens to aceLab")
       console.log(await aceLab.poolInfo(i));
     }
   });
+
+task("change-owner-aceLab", "Transfer ownership on Acelab contract")
+  .setAction(async (taskArgs, {ethers}) => {
+      const signer = (await ethers.getSigners())[0];
+
+      const aceLabAddress = '0xa7cF49a0C559414d51ae607ccc1563D292ECf23A';
+      const aceLab = await ethers.getContractAt("AceLab", aceLabAddress, signer);
+  
+      const owner = '0x4CE535D6E2D47690e33CA646972807BeB264dFBf';
+
+      await aceLab.transferOwnership(owner);
+      await Helpers.delay(4000);
+      console.log(await aceLab.owner())
+  });
+
+task("change-owner-auth", "Transfer ownership and adds auth on BrewUlx contract")
+  .setAction(async (taskArgs, {ethers}) => {
+      const signer = (await ethers.getSigners())[0];
+
+      const brewUlxAddress = '0xD98878B704431d566bdB47c6aAA34E4deAFC5A52';
+      const brewUlx = await ethers.getContractAt("BrewUlx", brewUlxAddress, signer);
+
+      const owner = '0x4CE535D6E2D47690e33CA646972807BeB264dFBf';
+      
+      await brewUlx.addAuth(owner);
+      await Helpers.delay(4000);
+      console.log(`IsModerator ${owner} = ${await brewUlx.isAuth(owner)}`);
+
+      await brewUlx.transferOwnership(owner);
+      await Helpers.delay(4000);
+      console.log(await brewUlx.owner())
+  });
