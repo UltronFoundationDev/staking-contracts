@@ -109,7 +109,7 @@ task("add-tokens", "Adding tokens to aceLab")
     for(let i:number = 0; i < tokens.length; i++) {
         await aceLab.add(rewardPerSecond, tokens[i], BigNumber.from(dateNow).sub(1000), BigNumber.from(dateNow).mul(2), treasuryAddress, { gasLimit: 3000000 });
         console.log(`POOL ${i} | ${tokens[i]} | ${rewardPerSecond}`);
-        Helpers.delay(4000);
+        
     }
   });
 
@@ -123,7 +123,7 @@ task("change-owner-aceLab", "Transfer ownership on Acelab contract")
       const owner = '0x4CE535D6E2D47690e33CA646972807BeB264dFBf';
 
       await aceLab.transferOwnership(owner);
-      await Helpers.delay(4000);
+      
       console.log(await aceLab.owner())
   });
 
@@ -137,10 +137,10 @@ task("change-owner-auth", "Transfer ownership and adds auth on BrewUlx contract"
       const owner = '0x4CE535D6E2D47690e33CA646972807BeB264dFBf';
       
       await brewUlx.addAuth(owner);
-      await Helpers.delay(4000);
+      
       console.log(`IsModerator ${owner} = ${await brewUlx.isAuth(owner)}`);
 
       await brewUlx.transferOwnership(owner);
-      await Helpers.delay(4000);
+      
       console.log(await brewUlx.owner())
   });
