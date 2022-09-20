@@ -14,8 +14,7 @@ require('dotenv').config();
 
 const fs = require('fs');
 
-// const filename = process.env.DIRNAME + "/deployed_storage.json";
-const filename = "./deployed_storage.json";
+const filename = process.env.DIRNAME + "/deployed_storage.json";
 
 let deployed_storage: any = {};
 try {
