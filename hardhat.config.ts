@@ -2,18 +2,18 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
- import { HardhatUserConfig } from 'hardhat/config';
+import { HardhatUserConfig } from 'hardhat/config';
 
- import 'hardhat-contract-sizer';
- import 'hardhat-gas-reporter';
- import '@typechain/hardhat';
- import '@nomiclabs/hardhat-etherscan';
- import '@nomiclabs/hardhat-waffle';
- import '@nomiclabs/hardhat-ethers';
+import 'hardhat-contract-sizer';
+import 'hardhat-gas-reporter';
+import '@typechain/hardhat';
+import '@nomiclabs/hardhat-etherscan';
+import '@nomiclabs/hardhat-waffle';
+import '@nomiclabs/hardhat-ethers';
 
- import "./deploy/deploy";
+import "./deploy/deploy";
 
- require("dotenv").config();
+require("dotenv").config();
 
 const config: HardhatUserConfig = {
   solidity: {
