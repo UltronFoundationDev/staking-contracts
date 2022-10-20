@@ -33,8 +33,8 @@ task("deploy", "Deploy Staking Contracts")
     const acelab = await run("acelab", {xulx: xulx});
     const brewulx = await run("brewulx", {xulx: xulx, wulx: wulx});
 
-    deployed_storage["xulx"] = xulx;
-    deployed_storage["acelab"] = acelab;
+    deployed_storage['tokens']["xulx"] = xulx;
+    deployed_storage['functional_contracts']["acelab"] = acelab;
     deployed_storage["brewulx"] = brewulx;
     fs.writeFileSync(filename, JSON.stringify(deployed_storage));
   });
@@ -89,19 +89,19 @@ task("add-tokens", "Adding tokens to aceLab")
     
     const treasuryAddress = signer.address;
 
-    const wbtc  = JSON.parse(fs.readFileSync(filename).toString().trim())["wBTC"];
-    const weth  = JSON.parse(fs.readFileSync(filename).toString().trim())["wETH"];
-    const bnb   = JSON.parse(fs.readFileSync(filename).toString().trim())["bnb"];
-    const avax  = JSON.parse(fs.readFileSync(filename).toString().trim())["avax"];
-    const busd  = JSON.parse(fs.readFileSync(filename).toString().trim())["bUSD"];
-    const shib  = JSON.parse(fs.readFileSync(filename).toString().trim())["shib"];
-    const matic = JSON.parse(fs.readFileSync(filename).toString().trim())["matic"];
-    const ftm   = JSON.parse(fs.readFileSync(filename).toString().trim())["ftm"];
-    const dai   = JSON.parse(fs.readFileSync(filename).toString().trim())["dai"];
-    const link  = JSON.parse(fs.readFileSync(filename).toString().trim())["link"];
-    const usdt  = JSON.parse(fs.readFileSync(filename).toString().trim())["uUSDT"];
-    const usdc  = JSON.parse(fs.readFileSync(filename).toString().trim())["uUSDC"];
-    const wulx  = JSON.parse(fs.readFileSync(filename).toString().trim())["wulx"];
+    const wbtc  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["wBTC"];
+    const weth  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["wETH"];
+    const bnb   = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["BNB"];
+    const avax  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["AVAX"];
+    const busd  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["BUSD"];
+    const shib  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["SHIB"];
+    const matic = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["MATIC"];
+    const ftm   = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["FTM"];
+    const dai   = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["DAI"];
+    const link  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["LINK"];
+    const usdt  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["uUSDT"];
+    const usdc  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["uUSDC"];
+    const wulx  = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["wULX"];
 
     const dateNow = Math.floor(Date.now() / 1000);
     const tokens = [usdc, avax, dai, wulx, shib];
