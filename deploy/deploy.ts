@@ -69,9 +69,9 @@ task("brewulx", "The contract BrewUlx is deployed")
   .setAction(async (taskArgs, { ethers, network }) => {
         const signer = (await ethers.getSigners())[0];
 
-        const factoryAddress = JSON.parse(fs.readFileSync(filename).toString().trim())["UniswapV2Factory"];
-        const route1Address = JSON.parse(fs.readFileSync(filename).toString().trim())["uUSDT"]; // usdt
-        const route2Address = JSON.parse(fs.readFileSync(filename).toString().trim())["uUSDC"]; // usdc
+        const factoryAddress = JSON.parse(fs.readFileSync(filename).toString().trim())["functional_contracts"]["UniswapV2Factory"];
+        const route1Address = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["uUSDT"]; // usdt
+        const route2Address = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["uUSDC"]; // usdc
 
         const brewUlxFactory = await ethers.getContractFactory("BrewULX", signer);
         const brewUlx = await (await brewUlxFactory.deploy(factoryAddress, taskArgs.xulx, taskArgs.wulx, route1Address, route2Address)).deployed();
