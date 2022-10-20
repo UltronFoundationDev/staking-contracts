@@ -33,7 +33,7 @@ task("deploy", "Deploy Staking Contracts")
     const acelab = await run("acelab", {xulx: xulx});
     const brewulx = await run("brewulx", {xulx: xulx, wulx: wulx});
 
-    deployed_storage['tokens']["xulx"] = xulx;
+    deployed_storage['tokens']["xULX"] = xulx;
     deployed_storage['functional_contracts']["acelab"] = acelab;
     deployed_storage["brewulx"] = brewulx;
     fs.writeFileSync(filename, JSON.stringify(deployed_storage));
