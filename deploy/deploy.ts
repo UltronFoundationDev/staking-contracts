@@ -84,7 +84,7 @@ task("add-tokens", "Adding tokens to aceLab")
   .setAction(async (taskArgs, { ethers, run }) => { 
     const signer = (await ethers.getSigners())[0];
 
-    const aceLabAddress = JSON.parse(fs.readFileSync(filename).toString().trim())["acelab"];
+    const aceLabAddress = JSON.parse(fs.readFileSync(filename).toString().trim())["functional_contracts"]["acelab"];
     const aceLab = await ethers.getContractAt("AceLab", aceLabAddress, signer);
     
     const treasuryAddress = signer.address;
