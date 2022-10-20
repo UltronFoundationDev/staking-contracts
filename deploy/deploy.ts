@@ -27,7 +27,7 @@ try {
 
 task("deploy", "Deploy Staking Contracts")
   .setAction(async (taskArgs, { ethers, run }) => {
-    const wulx = JSON.parse(fs.readFileSync(filename).toString().trim())["wulx"];
+    const wulx = JSON.parse(fs.readFileSync(filename).toString().trim())["tokens"]["wULX"];
     
     const xulx = await run("xulx", { wulx: wulx });
     const acelab = await run("acelab", {xulx: xulx});
